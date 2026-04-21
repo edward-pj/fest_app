@@ -9,21 +9,21 @@ import ClockIcon from '../../assets/svg/clock_icon.svg';
 const cardBg = require('/Users/prathamjain/Downloads/DVM_tasks/Fest_App/MyFestApp/assets/svg/card_bg_expanded.png');
 const tornFrame = require('/Users/prathamjain/Downloads/DVM_tasks/Fest_App/MyFestApp/assets/svg/torn_frame.png');
 
-// Bookmark icon — filled when saved.
+//filled when saved
 function Bookmark({ saved }) {
   return (
     <Svg width={scale(22)} height={scale(28)} viewBox="0 0 22 28" fill="none">
       <Path
         d="M2 2H20V26L11 21L2 26V2Z"
         stroke="#212121"
-        strokeWidth="2"
+        strokeWidth="3"
         fill={saved ? '#212121' : 'none'}
       />
     </Svg>
   );
 }
 
-// Red paperclip on the top-left.
+// paperclip
 function Paperclip() {
   return (
     <Svg width={scale(20)} height={scale(56)} viewBox="0 0 21 56" fill="none">
@@ -60,13 +60,14 @@ export default function EventCard({ event, isExpanded, isSaved, onToggleExpand, 
             <Text style={styles.title} numberOfLines={2}>
               {event.name.toUpperCase()}
             </Text>
-            <TouchableOpacity onPress={onToggleSave} hitSlop={10}>
+            <TouchableOpacity onPress={onToggleSave}>
               <Bookmark saved={isSaved} />
             </TouchableOpacity>
           </View>
 
           <Text style={styles.department}>{event.category}</Text>
 
+          {/* there should be data in there AND it should be expanded as well. */}
           {isExpanded && (
             <Text style={styles.description}>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit.

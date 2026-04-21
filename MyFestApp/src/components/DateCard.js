@@ -1,38 +1,66 @@
-import { Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { Text, TouchableOpacity, StyleSheet, View } from 'react-native';
 import { scale, vScale, fScale } from '../utils/scale';
 import { Fonts } from '../constants/fonts';
 
 export default function DateCard({ day, month, isActive, onPress }) {
   return (
-    <TouchableOpacity
-      activeOpacity={0.85}
-      onPress={onPress}
-      style={[styles.card, isActive ? styles.active : styles.inactive]}
-    >
-      <Text style={styles.month}>{month}</Text>
-      <Text style={styles.day}>{day}</Text>
-    </TouchableOpacity>
+    <View style={[styles.wrapper, isActive ? styles.wrapperActive : styles.wrapperInactive]}>
+      <View style={[styles.bgShadow, isActive ? styles.shadowActive : styles.shadowInactive]} />
+      <TouchableOpacity
+        activeOpacity={0.85}
+        onPress={onPress}
+        style={[styles.card, isActive ? styles.active : styles.inactive]}
+      >
+        <View style={styles.contents}>
+          <Text style={styles.month}>{month}</Text>
+          <Text style={styles.day}>{day}</Text>
+        </View>
+      </TouchableOpacity>
+    </View>
+   
+    
   );
 }
 
 const styles = StyleSheet.create({
+  wrapper: {
+    margin: scale(5),
+    height: vScale(82),
+  },
+  wrapperInactive: {
+    width: scale(78) + scale(6),
+  },
+  wrapperActive: {
+    width: scale(130) + scale(6),
+  },
   card: {
-    width: scale(78),
     height: vScale(82),
     backgroundColor: '#EC4646',
     borderColor: '#F6F6F6',
     borderRadius: scale(11),
     alignItems: 'center',
     justifyContent: 'center',
-    margin:scale(5),
-    // hard drop shadow (iOS)
-    shadowColor: '#000',
-    shadowOffset: { width: scale(5), height: scale(5) },
-    shadowOpacity: 0.27,
-    shadowRadius: 0,
-    // Android
-    elevation: 4,
-
+    zIndex: 10,
+    elevation: 10,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+  },
+  bgShadow:{
+    height: vScale(82),
+    backgroundColor: '#000',
+    borderRadius: scale(11),
+    opacity: 0.3,
+    position: 'absolute',
+    top: scale(6),
+    left: scale(6),
+    zIndex: 1,
+  },
+  shadowInactive: {
+    width: scale(78),
+  },
+  shadowActive: {
+    width: scale(130) * 1.08,
   },
   active: {
     borderWidth: scale(5),
@@ -40,8 +68,13 @@ const styles = StyleSheet.create({
     width: scale(130),
   },
   inactive: {
-    borderWidth: scale(2),
+    borderWidth: scale(4),
     width: scale(78),
+  },
+  contents:{
+    zIndex: 10,         
+    elevation: 10,
+    position:'absolute'
   },
   month: {
     fontFamily: Fonts.milordBook,
@@ -55,5 +88,6 @@ const styles = StyleSheet.create({
     color: '#F6F6F6',
     textTransform: 'uppercase',
     marginTop: vScale(2),
+
   },
 });
