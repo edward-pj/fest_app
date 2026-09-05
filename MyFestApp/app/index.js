@@ -4,7 +4,7 @@ import {
   ImageBackground, LayoutAnimation, Platform, UIManager, TouchableOpacity, StatusBarStyle
 } from 'react-native';
 import events from '../schedule.js';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useFonts } from 'expo-font';
 import { scale, vScale, fScale } from '../src/utils/scale';
 import { Fonts, fontAssets } from '../src/constants/fonts';
@@ -13,10 +13,10 @@ import EventCard from '../src/components/EventCard';
 import DateCard from '../src/components/DateCard';
 import { FEST_DATES } from '../src/constants/dates';
 
-import { useRouter } from 'expo-router';
-
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import { useFocusEffect, useRouter } from 'expo-router';
 
 const STORAGE_KEY = "@myapp:bookmarks";
 
@@ -48,7 +48,11 @@ export default function HomeScreen() {
 
   const router = useRouter();
 
-  useEffect(() => { fetchBookmarks(); }, [])
+  useFocusEffect(
+    useCallback(() => {
+      fetchBookmarks();
+    }, [])
+  );    
 
   if (!fontsLoaded) return null;
 
@@ -257,8 +261,6 @@ export default function HomeScreen() {
           ))}
 
         </View>
-
-
       </ScrollView>
     </ImageBackground>
   );
