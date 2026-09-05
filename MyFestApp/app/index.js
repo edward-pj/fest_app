@@ -3,15 +3,18 @@ import {
   StyleSheet, Text, View, ScrollView, Button, TextInput,
   ImageBackground, LayoutAnimation, Platform, UIManager, TouchableOpacity, StatusBarStyle
 } from 'react-native';
-import events from './schedule.js';
+import events from '../schedule.js';
 import { useState, useEffect } from 'react';
 import { useFonts } from 'expo-font';
-import { scale, vScale, fScale } from './src/utils/scale';
-import { Fonts, fontAssets } from './src/constants/fonts';
+import { scale, vScale, fScale } from '../src/utils/scale';
+import { Fonts, fontAssets } from '../src/constants/fonts';
 import { Svg, Path, Circle } from 'react-native-svg';
-import EventCard from './src/components/EventCard';
-import DateCard from './src/components/DateCard';
-import { FEST_DATES } from './src/constants/dates';
+import EventCard from '../src/components/EventCard';
+import DateCard from '../src/components/DateCard';
+import { FEST_DATES } from '../src/constants/dates';
+
+import { useRouter } from 'expo-router';
+
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -23,7 +26,7 @@ if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
-export default function App() {
+export default function HomeScreen() {
 
   // useFonts hook is used for async loading of fonts locally so that it does not take time to load and crash application. 
 
@@ -42,6 +45,8 @@ export default function App() {
   const [isBookmark, setIsBookmarks] = useState(false);
 
   const [savedEvents, setSavedEvents] = useState([]);
+
+  const router = useRouter();
 
   useEffect(() => { fetchBookmarks(); }, [])
 
@@ -161,7 +166,7 @@ export default function App() {
   return (
 
     <ImageBackground
-      source={require('./assets/background.png')}
+      source={require('../assets/background.png')}
       style={styles.bg}
       resizeMode="cover"
     >
@@ -196,7 +201,7 @@ export default function App() {
           <Text style={styles.heading}>EVENTS</Text>
 
 
-          <TouchableOpacity onPress={() => setIsBookmarks(!isBookmark)}>
+          <TouchableOpacity onPress={() => router.push('/bookmarks')}>
             <Svg xmlns="http://www.w3.org/2000/svg" width="24" height="30" viewBox="0 0 24 30" fill="none">
               <Path fill-rule="evenodd" clip-rule="evenodd" d="M10.5663 5H0.566315V28.2727L9.20631 24.6364L18.5663 29V13C14.148 13 10.5663 9.41828 10.5663 5Z" fill={isBookmark ? '#EC4646' : 'white'} />
               <Path d="M0.566315 5V4.43368H-6.55651e-07V5H0.566315ZM10.5663 5H11.1326V4.43368H10.5663V5ZM0.566315 28.2727H-6.55651e-07V29.1255L0.785999 28.7947L0.566315 28.2727ZM9.20631 24.6364L9.4456 24.1231L9.21804 24.017L8.98663 24.1144L9.20631 24.6364ZM18.5663 29L18.327 29.5133L19.1326 29.8889V29H18.5663ZM18.5663 13H19.1326V12.4337H18.5663V13ZM0.566315 5V5.56632H10.5663V5V4.43368H0.566315V5ZM0.566315 28.2727H1.13263V5H0.566315H-6.55651e-07V28.2727H0.566315ZM9.20631 24.6364L8.98663 24.1144L0.346631 27.7508L0.566315 28.2727L0.785999 28.7947L9.426 25.1583L9.20631 24.6364ZM18.5663 29L18.8056 28.4867L9.4456 24.1231L9.20631 24.6364L8.96702 25.1496L18.327 29.5133L18.5663 29ZM18.5663 13H18V29H18.5663H19.1326V13H18.5663ZM18.5663 13V12.4337C14.4608 12.4337 11.1326 9.10551 11.1326 5H10.5663H10C10 9.73105 13.8353 13.5663 18.5663 13.5663V13Z" fill="white" />
